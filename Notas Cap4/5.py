@@ -15,7 +15,7 @@ M = 1 ## 1.989 * 10**30
 
 d = 1
 
-dt = 0.0001
+dt = 0.01
 t = np.arange(0,100,dt)
 
 Rx = np.zeros(t.size)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon May 23 17:28:13 2022
+Created on Thu Jun  2 02:47:17 2022
 
 @author: Alexandre
 """
@@ -8,8 +8,8 @@ Created on Mon May 23 17:28:13 2022
 import matplotlib.pyplot as plt
 import numpy as np
 
-dt = 0.001
-t = np.arange(0,200+dt,dt)
+dt = 0.01
+t = np.arange(0,500+dt,dt)
 
 ax = np.zeros(t.size)
 vx = np.zeros(t.size)
@@ -23,13 +23,16 @@ m = 75
 Potencia = 294.20
 vx[0] = 1
 g = 9.8
+P = m * g
+N = P * np.cos(np.pi*(5/180))
 
 for i in range(t.size-1):
     Fcic = Potencia/vx[i]
     FRes = -(Cres/2)*area*Par*vx[i]**2
-    FRol = u*m*g
-    F = Fcic + FRes - FRol
-    ax[i] = F/m  
+    FRol = -u*abs(N)
+    F = Fcic + FRes + FRol - P * np.sin(np.pi*(5/180))
+    
+    ax[i] = F/m
     vx[i+1] = vx[i] + ax[i]*dt
     x[i+1] = x[i] + vx[i]*dt
 
@@ -38,26 +41,7 @@ plt.plot(t,vx, label="velocity")
 plt.grid()
 
 print("Vel Terminal: " + str(vx[-1]))
-print("90% da Vel Terminal: " + str(vx[-1]*0.9))
 
-
-#vx = vx - vx[-1]*0.9
-
-#plt.plot(t,vx, label="velocity -90%")
-
-print("Atinge 90% vt aos: ", end="")
-for i in range(vx.size-1):
-    if(vx[i] == vx[-1]*0.9): ##Quando vx == 90% v terminal
-        print(t[np.where(vx == vx[i])])
-        break;
-    elif(vx[i] > vx[-1]*0.9): ##Vai buscar o primeiro valor acima de 90% da vterminal
-                              ## pega nele e faz media com o anterior
-        t1 = t[np.where(vx == vx[i])]
-        t2 = t[np.where(vx == vx[i-1])]
-        tmed = (t1+t2)/2
-        print(tmed)
-        break;
-        
 
 print("Tempo que demora a percorrer 2km: ", end="")
 for i in range(x.size-1):
@@ -70,6 +54,5 @@ for i in range(x.size-1):
         tmed = (t1+t2)/2
         print(tmed)
         break;
- 
 
 plt.legend()

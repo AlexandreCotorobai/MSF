@@ -17,7 +17,7 @@ Ep = 0.5*k*(abs(x)-xeq)**2
 
 plt.plot(x,Ep)
 
-##ele vai oscilar harmonicamente a volta da posicao de equilibrio quer de um lado como de outro
+##b) ele vai oscilar harmonicamente a volta da posicao de equilibrio quer de um lado como de outro
 
 t = np.arange(0,10, dt)
 ax = np.zeros(t.size)
